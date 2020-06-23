@@ -10,12 +10,15 @@ def criarArquivo(nome):
     else:
         print(
             f'Aquivo {nome} criado com sucesso!')  # Caso nao tenha erro na hora de criar o arquivo uma msg irá aparecer.
+    return nome
 
 
 def arquivo_existe(nome):
+    global arq
+    arq = nome
     try:
-        a = open(nome, 'rt')
-        a.close()
+        arquivo = open(nome, 'rt')
+        arquivo.close()
     except FileNotFoundError:
         return False
     else:
@@ -34,7 +37,6 @@ def cabecalho():
 
 
 def opcoes():
-    global opcao
     print(f'{"Escola a Opção:":-^40}')
     print('-' * 40)
     print('1 - Cadastrar Paciente')
@@ -46,7 +48,6 @@ def opcoes():
     print('0 - Sair')
     print('-' * 40)
     opcao = int(input('Digite Sua Opção: '))
-    print('')
     return opcao
 
 
@@ -88,91 +89,100 @@ def lista_de_paciente():
     print('-' * 40)
     try:
         arquivo = open(arq, "r")
-        for linha in arquivo.readlines():
-            print(linha.split(','))
+        for linha in arquivo:
+            linha_lista = linha.split(',')
+            print(linha_lista[0])
         arquivo.close()
     except IOError as error:
         print(f'ERRO: {error}')
 
 
+def opcoes_de_alterar_dados_do_pacientes():
+    global opcao_de_alteracao
+    print('-' * 40)
+    print(f'{"Dados Para Alteração":-^40}')
+    print('-' * 40)
+    print('0  - Nome do Paciente\n'
+          '1  - CNS\n'
+          '2  - Bairro\n'
+          '3  - Unidade de Saúde\n'
+          '4  - Data de nascimento\n'
+          '5  - Comorbidades\n'
+          '6  - Data de Início dos Sintomas\n'
+          '7  - Endereço\n'
+          '8  - Sintomas Inícias\n'
+          '9  - Telefone1\n'
+          '10 - Telefone2')
+    print('-' * 40)
+    opcao_de_alteracao = int(input('Qual Dado Deseja Alterar: '))
+    return opcao_de_alteracao
+
+
 def alterar_dados_do_pacientes():
     print('-' * 40)
     try:
-        arquivo = open(arq, 'r+')
-    except:
-        print('Error')
-    else:
-        nome_alteracao = str(input('Nome do Paciente: ')).title()
-        print('')
-        for ele in arquivo.readlines():
-            elemento = ele.split(',')
-            if nome_alteracao == elemento[0]:
-                print('-' * 40)
-                print('0  - Nome do Paciente\n'
-                      '1  - CNS\n'
-                      '2  - Bairro\n'
-                      '3  - Unidade de Saúde\n'
-                      '4  - Data de nascimento\n'
-                      '5  - Comorbidades\n'
-                      '6  - Data de Início dos Sintomas\n'
-                      '7  - Endereço\n'
-                      '8  - Sintomas Inícias\n'
-                      '9  - Telefone1\n'
-                      '10 - Telefone2')
-                print('-' * 40)
-                valor = int(input('Qual Dado Deseja Alterar: '))
-                if valor == 0:
+        with open(arq, 'r') as arquivo:
+            nome_alteracao = str(input('Digite o Nome do Paciente que Desenha Alterar o Dado: ')).title()
+            linhas = arquivo.readlines()
+            for elemento in linhas:
+                if elemento.startswith(nome_alteracao):
+                    print('- ' * 20)
+                    print(f'Alterando dado de {nome_alteracao}.')
+                    print('- ' * 20)
                     nome = str(input('Nome do Paciente: ')).title()
-                    arquivo.write(elemento[0].replace(elemento[0], nome))
-                elif valor == 1:
                     cns = input('CNS: ')
-                elif valor == 2:
                     bairro = input('Bairro: ')
-                elif valor == 3:
                     unidade_de_saude = input('Unidade de Saúde: ')
-                elif valor == 4:
                     data_nascimento = input('Data de nascimento: ')
-                elif valor == 5:
                     comobirdaes = input('Comorbidades: ')
-                elif valor == 6:
                     data_de_inicio_dos_sintomas = input('Data de Início dos Sintomas: ')
-                elif valor == 7:
                     endereco = input('Endereço: ')
-                elif valor == 8:
                     sintomas_iniciais = input('Sintomas Inícias: ')
-                elif valor == 9:
                     telefone1 = input('Telefone1: ')
-                elif valor == 10:
                     telefone2 = input('Telefone2: ')
-                print('')
-                print('Mudança feita com sucesso!!')
-            # else:
-            #     print(f'Nome de {nome_alteracao} não encontrado!')
-            #     break
-        arquivo.close()
+                    pos = linhas.index(elemento)
+                    item = (nome + ',' + cns + ',' + bairro + ',' + unidade_de_saude + ',' + data_nascimento +
+                            ',' + comobirdaes + ',' + data_de_inicio_dos_sintomas + ',' + endereco +
+                            ',' + sintomas_iniciais + ',' + telefone1 + ',' + telefone2 + '\n')
+                    linhas.pop(pos)
+                    linhas.insert(pos, item)
+                    arquivo = open(arq, 'w')
+                    arquivo.writelines(linhas)
+                    arquivo.close()
+                    print('- ' * 20)
+                    print('Mudança feita com sucesso!!')
+                    return
+        print('- ' * 20)
+        print(f'Nome de {nome_alteracao} Não Encontrado')
+    except:
+       print(f'Error')
 
 
 # def excluir_dados_do_pacientes():
 #
 #
-# def realizar_backup_do_arquivo():
+# def realizar_backup_do_arquivo
 
 
 # Verificação/Criação do arquivo
-arq = 'Lucas.txt'
-if not arquivo_existe(arq):  # Caso não existe um arquivo com o nome passado ele irá criar um.
-    criarArquivo(arq)  # Caso já tenha um arquivo com o nome passado ele irá ignorar.
+arq = 'Dados.txt'
+if not f.arquivo_existe(arq):  # Caso não existe um arquivo com o nome passado ele irá criar um.
+    f.criar_arquivo(arq)  # Caso já tenha um arquivo com o nome passado ele irá ignorar.
 
 # Programa Principal
 while True:
-    opcoes()
+    opcao = f.opcoes()
     if opcao == 1:
-        cadastrar_paciente()
+        f.cadastrar_paciente()
     if opcao == 2:
-        lista_de_paciente()
+        f.lista_de_paciente()
     if opcao == 3:
-        alterar_dados_do_pacientes()
+#         f.opcoes_de_alterar_dados_do_pacientes()   No momento nao vamos utilizar
+        f.alterar_dados_do_pacientes()
+    if opcao == 4:
+        print('Opcao chegará em breve')
+    if opcao == 5:
+        print('Opcao chegará em breve')
     if opcao == 0:
         print('Volte Sempre!!')
         break
-
