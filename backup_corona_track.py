@@ -1,4 +1,4 @@
-def criarArquivo(nome):
+def criar_arquivo(nome):
     global arq  # Variavel qur estáva no escopo local passa a ser global para acessar em outros lugares.
     arq = nome
     try:
@@ -166,19 +166,19 @@ def alterar_dados_do_pacientes():
 
 # Verificação/Criação do arquivo
 arq = 'Dados.txt'
-if not f.arquivo_existe(arq):  # Caso não existe um arquivo com o nome passado ele irá criar um.
-    f.criar_arquivo(arq)  # Caso já tenha um arquivo com o nome passado ele irá ignorar.
+if not arquivo_existe(arq):  # Caso não existe um arquivo com o nome passado ele irá criar um.
+    criar_arquivo(arq)  # Caso já tenha um arquivo com o nome passado ele irá ignorar.
 
 # Programa Principal
 while True:
-    opcao = f.opcoes()
+    opcao = fopcoes()
     if opcao == 1:
-        f.cadastrar_paciente()
+        cadastrar_paciente()
     if opcao == 2:
-        f.lista_de_paciente()
+        lista_de_paciente()
     if opcao == 3:
 #         f.opcoes_de_alterar_dados_do_pacientes()   No momento nao vamos utilizar
-        f.alterar_dados_do_pacientes()
+        alterar_dados_do_pacientes()
     if opcao == 4:
         print('Opcao chegará em breve')
     if opcao == 5:
