@@ -29,7 +29,7 @@ def cabecalho():
     print('*' * 40)
     print('*', ' ' * 36, '*')
     print(f'{"* Professor: Roberto Fabiano": <38} *')
-    print(f'{"* Aluno: Lucas Aguiar": <38} *')
+    print(f'{"* Aluno: Lucas Aguiar e Leonardo Jung": <38} *')
     print(f'{"* Curso: ADS": <38} *')
     print(f'{"* Estudante da Faculdade Cesusc": <38} *')
     print('*', ' ' * 36, '*')
